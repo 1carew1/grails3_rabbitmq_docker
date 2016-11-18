@@ -1,56 +1,51 @@
 {
-    "family": "RabbitMQGrails3",
-    "volumes": [
+  "family": "RabbitMQGrails3",
+  "volumes": [
+    {
+      "name": "my-vol",
+      "host": {}
+    }
+  ],
+  "containerDefinitions": [
+    {
+      "environment": [],
+      "name": "RabbitMQGrails3",
+      "image": "1carew1/grails3_rabbitmq_docker",
+      "cpu": 50,
+      "memory": 500,
+      "portMappings": [
         {
-            "name": "my-vol",
-            "host": {}
+          "containerPort": 8080,
+          "hostPort": 8080
         }
-    ],
-    "containerDefinitions": [
+      ],
+      "mountPoints": [],
+      "entryPoint": [
+        "java",
+        "-Dgrails.env=prod",
+        "-jar",
+        "rabbitMQGrails3-0.1.war"
+      ],
+      "essential": true
+    },
+    {
+      "name": "busybox",
+      "image": "busybox",
+      "cpu": 10,
+      "memory": 200,
+      "volumesFrom": [
         {
-            "environment": [],
-            "name": "RabbitMQGrails3",
-            "image": "1carew1/grails3_rabbitmq_docker",
-            "cpu": 10,
-            "memory": 200,
-            "portMappings": [
-                {
-                    "containerPort": 8080,
-                    "hostPort": 8080
-                }
-            ],
-            "mountPoints": [
-                {
-                    "sourceVolume": "my-vol",
-                    "containerPath": "/var/www/my-vol"
-                }
-            ],
-            "entryPoint": [
-                "java",
-                "-Dgrails.env=prod",
-                "-jar",
-                "rabbitMQGrails3-0.1.war"
-            ],
-            "essential": false
-        },
-        {
-            "name": "busybox",
-            "image": "busybox",
-            "cpu": 10,
-            "memory": 200,
-            "volumesFrom": [
-            {
-              "sourceContainer": "RabbitMQGrails3"
-            }
-            ],
-            "entryPoint": [
-                "sh",
-                "-c"
-            ],
-            "command": [
-                "/bin/sh -c \"while true; do /bin/date > /var/www/my-vol/date; sleep 50; done\""
-            ],
-            "essential": true
+          "sourceContainer": "RabbitMQGrails3"
         }
-    ]
+      ],
+      "entryPoint": [
+        "sh",
+        "-c"
+      ],
+      "command": [
+        "/bin/sh -c \"while true; do /bin/date > /var/www/my-vol/date; sleep 50; done\""
+      ],
+      "essential": false
+    }
+  ]
 }
