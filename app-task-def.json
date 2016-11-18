@@ -27,25 +27,6 @@
         "rabbitMQGrails3-0.1.war"
       ],
       "essential": true
-    },
-    {
-      "name": "busybox",
-      "image": "busybox",
-      "cpu": 10,
-      "memory": 200,
-      "volumesFrom": [
-        {
-          "sourceContainer": "RabbitMQGrails3"
-        }
-      ],
-      "entryPoint": [
-        "sh",
-        "-c"
-      ],
-      "command": [
-        "/bin/sh -c \"while true; do /bin/date > /var/www/my-vol/date; sleep 50; done\""
-      ],
-      "essential": false
     }
   ]
 }
