@@ -16,18 +16,18 @@ class ConnectController {
     if (!numberOfMessagesToSend || numberOfMessagesToSend < 0) {
       numberOfMessagesToSend = 1
     }
-
+    String queueName = params.queueName?.toLowerCase()?.replaceAll(/\s+/, "_")
+    String message = params.message
 
     RabbitMQConnection rabbitMQConnection = RabbitMQConnection.instance.setUpConnection(params.username, params.password, params.host, params.virtualHost)
     if (rabbitMQConnection.connection) {
       def channel = rabbitMQConnection.createChannel()
-      String queueName = 'someRandomQueue'
       channel.queueDeclare(queueName, false, false, false, null)
-      String message = "Hello World!"
       numberOfMessagesToSend.times {
         channel.basicPublish("", queueName, null, message.getBytes())
       }
-      println("Sent '" + message + "' $numberOfMessagesToSend time")
+      println("Sent '" + message + "' $numberOfMessagesToSend times")
+      channel.close()
     }
 
 

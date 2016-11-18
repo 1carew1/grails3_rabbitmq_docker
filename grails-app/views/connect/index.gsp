@@ -22,11 +22,19 @@
     <input type="text" name="virtualHost"/>
     <label for="virtualHost">Virtual Host</label>
     <br>
+    <input type="text" name="queueName" value="testQueue"/>
+    <label for="queueName">Queue Name</label>
+    <br>
+    <input type="text" name="message" value="Hellow World"/>
+    <label for="message">Message To Send</label>
+    <br>
     <input type="text" name="numberOfMessages"/>
     <label for="numberOfMessages">How Many Message</label>
     <br>
     <input type="submit" value="Send Messages" />
 </form>
+
+
 
 </div>
 
